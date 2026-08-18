@@ -90,23 +90,24 @@ Unique business logic for intelligence analysis:
 
 ## Deployment
 
-**Production is Vercel:** https://hipcityreg-situation-monitor.vercel.app
+**This is a fork.** `Disconoodlez/situation-monitor`, forked from `hipcityreg/situation-monitor`
+(Reggie's public project) on 2026-08-17. The UAP and Prophecy panels are local additions and
+do not exist upstream. `origin` is this fork; `upstream` is Reggie's repo.
 
-Deploys are triggered by the Vercel GitHub integration — push to `main` and Vercel
-builds it. There is no manual deploy step and no `vercel` CLI dependency in this repo.
-Config lives in `vercel.json`: `framework: null` (SvelteKit's own Vercel preset would
-override the static adapter), a catch-all rewrite to `/app.html` so client-side routes
-resolve on hard refresh, and cache headers — immutable for `/assets/*`, revalidate for
-everything else. The local `.vercel/` link directory is gitignored.
+**Production is Vercel**, deployed from this fork's `main` via the Vercel GitHub integration —
+push to `main` and Vercel builds it. There is no manual deploy step and no `vercel` CLI
+dependency in this repo. Config lives in `vercel.json`: `framework: null` (SvelteKit's own
+Vercel preset would override the static adapter), a catch-all rewrite to `/app.html` so
+client-side routes resolve on hard refresh, and cache headers — immutable for `/assets/*`,
+revalidate for everything else. The local `.vercel/` link directory is gitignored.
 
-**GitHub Pages is only a redirect stub.** `.github/workflows/deploy.yml` — named
-"Deploy Redirect to GitHub Pages" — publishes a single `index.html` that meta-refreshes
-to the Vercel URL. It does *not* build the app. `https://hipcityreg.github.io/situation-monitor/`
-is a forwarder, not a deployment target, and `BASE_PATH` is not used by it.
+**No GitHub Pages.** Upstream carried a `.github/workflows/deploy.yml` named "Deploy Redirect
+to GitHub Pages" that published a meta-refresh to *Reggie's* Vercel URL. It was removed from
+this fork on 2026-08-17 — publishing a page that redirects visitors to someone else's
+deployment is not what this fork wants.
 
-> Corrected 2026-08-17. This section previously described GitHub Pages as the deploy
-> target, which stopped being true at commit `0118e2a` (Convert GitHub Pages to redirect
-> to Vercel).
+**Pulling upstream changes:** `git fetch upstream && git merge upstream/main`. Upstream has not
+pushed since 2026-01-13, so expect this to be quiet.
 
 ## External Dependencies
 
