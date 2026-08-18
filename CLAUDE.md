@@ -30,7 +30,7 @@ npm run format       # Auto-format with Prettier
 - **TypeScript** (strict mode enabled)
 - **Tailwind CSS** with custom dark theme
 - **Vitest** (unit) + **Playwright** (E2E) for testing
-- **Static adapter** - deploys as pure static site to GitHub Pages
+- **Static adapter** - deploys as a pure static site (SPA fallback: `app.html`) to Vercel
 
 ## Project Architecture
 
@@ -90,7 +90,23 @@ Unique business logic for intelligence analysis:
 
 ## Deployment
 
-GitHub Actions workflow builds with `BASE_PATH=/situation-monitor` and deploys to GitHub Pages at `https://hipcityreg.github.io/situation-monitor/`
+**Production is Vercel:** https://hipcityreg-situation-monitor.vercel.app
+
+Deploys are triggered by the Vercel GitHub integration — push to `main` and Vercel
+builds it. There is no manual deploy step and no `vercel` CLI dependency in this repo.
+Config lives in `vercel.json`: `framework: null` (SvelteKit's own Vercel preset would
+override the static adapter), a catch-all rewrite to `/app.html` so client-side routes
+resolve on hard refresh, and cache headers — immutable for `/assets/*`, revalidate for
+everything else. The local `.vercel/` link directory is gitignored.
+
+**GitHub Pages is only a redirect stub.** `.github/workflows/deploy.yml` — named
+"Deploy Redirect to GitHub Pages" — publishes a single `index.html` that meta-refreshes
+to the Vercel URL. It does *not* build the app. `https://hipcityreg.github.io/situation-monitor/`
+is a forwarder, not a deployment target, and `BASE_PATH` is not used by it.
+
+> Corrected 2026-08-17. This section previously described GitHub Pages as the deploy
+> target, which stopped being true at commit `0118e2a` (Convert GitHub Pages to redirect
+> to Vercel).
 
 ## External Dependencies
 

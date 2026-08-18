@@ -21,7 +21,9 @@
 		SituationPanel,
 		WorldLeadersPanel,
 		PrinterPanel,
-		FedPanel
+		FedPanel,
+		UAPPanel,
+		ProphecyPanel
 	} from '$lib/components/panels';
 	import {
 		news,
@@ -319,6 +321,20 @@
 			{#if isPanelVisible('fed')}
 				<div class="panel-slot">
 					<FedPanel />
+				</div>
+			{/if}
+
+			<!-- UAP / UFO Sightings Panel -->
+			{#if isPanelVisible('uap')}
+				<div class="panel-slot">
+					<UAPPanel />
+				</div>
+			{/if}
+
+			<!-- Biblical Prophecy Tracker -->
+			{#if isPanelVisible('prophecy')}
+				<div class="panel-slot">
+					<ProphecyPanel />
 				</div>
 			{/if}
 
